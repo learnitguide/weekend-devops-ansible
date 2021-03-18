@@ -1,0 +1,14 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: 1st task - creating 1st user
+    user:
+     name: bilal
+     shell: /bin/bash
+     state: present
+  - name: 2nd task - deleting 2nd user
+    user:
+     name: jeeva
+     shell: /bin/bash
+     state: absent
