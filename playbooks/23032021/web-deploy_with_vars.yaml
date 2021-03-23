@@ -1,0 +1,32 @@
+---
+- hosts: web1-centos
+  vars:
+   package_name: httpd
+   ignore_errors: true
+   path: /etc/httpd/conf/httpd.conf
+   port: 8080
+   source: index.html
+   service_name: httpd
+  become: yes
+  tasks: 
+  - name: Installing packages {{ package_name }}
+    yum:
+     name: "{{ package_name }}"
+     state: latest
+    ignore_errors: "{{ ignore_errors }}"
+  - name: Configuration Changes Listen to {{ port }}
+    lineinfile:
+     path: "{{ path }}"
+     regexp: '^Listen 80'
+     line: Listen "{{ port }}"
+    ignore_errors: "{{ ignore_errors }}"
+  - name: Copying developer codes to web document root
+    copy:
+     src: "{{ source }}"
+     dest: /var/www/html/index.html
+    ignore_errors: "{{ ignore_errors }}"
+  - name: Service start
+    service:
+     name: "{{ service_name }}"
+     state: started
+    ignore_errors: "{{ ignore_errors }}"
