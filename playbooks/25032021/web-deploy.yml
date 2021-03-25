@@ -1,0 +1,37 @@
+---
+- hosts: web1-centos
+  become: yes
+  tasks: 
+  - name: Installing packages
+    yum:
+     name: httpd
+     state: latest
+    tags:
+    - install
+
+  - name: Configuration Changes Listen to 8084
+    lineinfile:
+     path: /etc/httpd/conf/httpd.conf
+     regexp: '^Listen 8083'
+     line: Listen 8084
+    tags:
+    - config
+
+  - name: Copying developer codes to web document root
+    copy:
+     src: index.html
+     dest: /var/www/html/index.html
+    tags:
+    - config
+    - code_change
+
+  - name: Service start
+    service:
+     name: httpd
+     state: started
+    tags:
+    - service_task
+
+
+
+

@@ -1,0 +1,45 @@
+---
+- hosts: all
+  vars:
+   username: ravi
+   shell: /bin/sh
+   state: present
+  become: yes
+  tasks:
+  - name: Creating "{{ username }}" User
+    user:
+     name: "{{ username }}"
+     shell: "{{ shell }}"
+     state: "{{ state }}"
+    register: user_output
+
+  - name: diplsyaing user creation status
+    debug:
+     var: user_output.uid
+
+  - name: Displaying some result
+    debug:
+      msg: "Target Server Name {{ ansible_distribution }}"
+
+  - name: ouput
+    shell: uname -a
+    register: result
+
+  - name: display output
+    debug:
+     var: result.stdout
+
+  - name: os info
+    shell: cat /etc/lsb-release | grep -i DISTRIB_ID | cut -f2 -d "="
+    register: os_info
+
+  - name: display os info
+    debug:
+     var: os_info.stdout
+
+     
+     #  - name: 2nd task - deleting 2nd user
+     #user:
+     #name: jeeva
+     #shell: /bin/bash
+     #state: absent
