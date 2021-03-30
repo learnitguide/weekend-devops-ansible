@@ -1,0 +1,29 @@
+---
+- hosts: web1-centos
+  become: yes
+  tasks:
+  - name: creating users
+    user:
+     name: "{{ item }}"
+     state: present
+    with_items:
+    - "karthik"
+    - "jeeva"
+    - "prabhu"
+
+  - name: creating number of files
+    file:
+     path: "{{ item }}"
+     state: touch
+    with_items:
+    - "/etc/hosts"
+    - "/tmp/dummy"
+
+  - name: install packages
+    yum:
+     name: "{{ item }}"
+     state: latest
+    with_items:
+    - "net-tools"
+    - "vim"
+

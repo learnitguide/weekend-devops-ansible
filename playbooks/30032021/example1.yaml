@@ -1,0 +1,16 @@
+---
+- hosts: all
+  vars_files:
+  - "vars/user.yaml"
+  become: yes
+  tasks:
+  - name: Creating "{{ username }}" User
+    user:
+     name: "{{ username }}"
+     shell: "{{ shell }}"
+     
+     #  - name: 2nd task - deleting 2nd user
+     #user:
+     #name: jeeva
+     #shell: /bin/bash
+     #state: absent
