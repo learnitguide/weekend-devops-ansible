@@ -1,0 +1,24 @@
+- hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: test main tasks
+    shell: uptime
+    register: result
+    ignore_errors: true
+    when: ansible_facts['distribution'] == "Ubuntu"
+
+  - name: task1 depends on main tasks when it is success
+    shell: touch /tmp/success
+    when: result is succeeded
+
+  - name: task2 depends on main tasks when it is failed
+    shell: touch /tmp/failures
+    when: result is failed
+
+  - name: task3 depends on main tasks when it is skipped
+    shell: touch /tmp/skips
+    when: result is skipped
+
+
+

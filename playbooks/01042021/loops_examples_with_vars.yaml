@@ -1,0 +1,26 @@
+---
+- hosts: web1-centos
+  become: yes
+  vars:
+   file_lists: ["/etc/hosts/","var/log/syslog"]
+   users_lists: ["karthik,jeeva","justin","nagaraj"]
+   packages: ["vim","telnet","net-tools"]
+  tasks:
+  - name: creating number of files
+    file:
+     path: "{{ item }}"
+     state: touch
+    with_items: "{{ file_lists }}"
+
+  - name: creating users
+    user:
+     name: "{{ item }}"
+     state: present
+    with_items: "{{ users_lists }}"
+
+  - name: install packages
+    yum:
+     name: "{{ item }}"
+     state: latest
+    with_items: "{{ packages }}"
+

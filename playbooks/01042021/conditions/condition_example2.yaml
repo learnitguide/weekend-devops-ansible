@@ -1,0 +1,16 @@
+- hosts: all
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: Install package apache2 on ubuntu
+    apt:
+     name: apache2
+     state: absent
+    when: ansible_facts['distribution'] == "Ubuntu" and ansible_facts.ohai_packages.apache2.version == "2.4.41-4ubuntu3.1"
+
+  - name: Install package httpd on centos
+    yum:
+     name: httpd
+     state: absent
+    when: ansible_facts['distribution'] == "CentOS" and ansible_facts.ohai_packages.httpd.version == "2.4.6"
+

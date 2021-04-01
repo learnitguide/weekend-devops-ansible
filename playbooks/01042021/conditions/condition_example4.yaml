@@ -1,0 +1,18 @@
+- hosts: web1-centos
+  become: yes
+  gather_facts: yes
+  tasks:
+  - name: test main tasks
+    shell: ls /tmp/reboot
+    register: result
+    ignore_errors: true
+
+  - name: task1 depends on main tasks when it is success
+    shell: /usr/sbin/reboot
+    when: result is succeeded
+
+  - name: task2 depends on main tasks when it is failed
+    shell: echo "task failed" >> /tmp/output
+    when: result is failed
+
+
