@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  remote_user: root
+  roles:
+    - /home/ansible/weekday-devops/weekday/roles/myapache

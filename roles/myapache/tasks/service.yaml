@@ -1,0 +1,7 @@
+---
+- name: Service start
+  service:
+   name: httpd
+   state: started
+  tags:
+  - service_task

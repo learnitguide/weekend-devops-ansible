@@ -1,0 +1,8 @@
+---
+- name: Installing packages
+  yum:
+   name: httpd
+   state: latest
+  tags:
+  - install
+

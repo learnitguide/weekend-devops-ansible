@@ -1,0 +1,19 @@
+---
+- name: Configuration Changes Listen to 8085
+  lineinfile:
+   path: /etc/httpd/conf/httpd.conf
+   regexp: '^Listen 8084'
+   line: Listen 8085
+  notify:
+  - apacherestart
+  tags:
+  - config
+
+- name: Copying developer codes to web document root
+  copy:
+   src: index.html
+   dest: /var/www/html/index.html
+  tags:
+  - config
+  - code_change
+
